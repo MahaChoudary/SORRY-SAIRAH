@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm Sorry - A Heartfelt Apology</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        #three-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .main-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: fadeInUp 2s ease-out, glow 3s ease-in-out infinite alternate;
+            background: linear-gradient(45deg, #fff, #f8f9ff, #e8eaff);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInUp 2s ease-out 0.5s both;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .letter-container {
+            perspective: 1000px;
+            margin: 2rem 0;
+            animation: fadeInUp 2s ease-out 1s both;
+        }
+
+        .letter {
+            width: 350px;
+            height: 250px;
+            position: relative;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .letter.opened {
+            transform: rotateY(180deg);
+        }
+
+        .letter-front, .letter-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .letter-front {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .letter-back {
+            background: linear-gradient(135deg, #fff 0%, #f8f9ff 100%);
+            transform: rotateY(180deg);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: #333;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            overflow-y: auto;
+        }
+
+        .envelope-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+        }
+
+        .click-hint {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            animation: pulse 2s infinite;
+        }
+
+        .letter-content h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255,255,255,0.7);
+            font-size: 1.5rem;
+            animation: floatUp 8s linear infinite;
+        }
+
+        .cta-section {
+            margin-top: 3rem;
+            text-align: center;
+            animation: fadeInUp 2s ease-out 1.5s both;
+        }
+
+        .forgive-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+            margin: 0 10px;
+        }
+
+        .forgive-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(79, 172, 254, 0.6);
+        }
+
+        .deny-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+            margin: 0 10px;
+        }
+
+        .deny-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(245, 87, 108, 0.6);
+        }
+
+        .response-message {
+            margin-top: 2rem;
+            font-size: 1.2rem;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .response-message.show {
+            opacity: 1;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(255,255,255,0.5);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(255,255,255,0.8), 0 0 40px rgba(255,255,255,0.6);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(0deg);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .letter {
+                width: 300px;
+                height: 220px;
+            }
+            
+            .letter-back {
+                padding: 20px;
+                font-size: 0.8rem;
+            }
+            
+            .forgive-btn, .deny-btn {
+                display: block;
+                margin: 10px auto;
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="three-container"></div>
+    
+    <div class="floating-hearts" id="hearts-container"></div>
+    
+    <div class="container">
+        <h1 class="main-title">I'm Sorry Sairah</h1>
+        <p class="subtitle">Please accept my heartfelt apology</p>
+        
+        <div class="letter-container">
+            <div class="letter" id="sorryLetter">
+                <div class="letter-front">
+                    <div class="envelope-icon">💌</div>
+                    <div>Click to Open</div>
+                    <div class="click-hint">My Letter to You</div>
+                </div>
+                <div class="letter-back">
+                    <div class="letter-content">
+                        <h3>My Dearest Friend,</h3>
+       <p>i know i have been rude to you, and im truly sorry for that
+        sometimes i act completely strange and i know i have disappointed you,and for that i am willing to do anything that it takes to freshen up your mood..im sorry!!!
+       </p>
+                        
+                        <p style="text-align: center; margin-top: 20px; font-weight: 600;">With all my love and regret,</p>
+                        <p style="text-align: center; font-family: 'Dancing Script', cursive; font-size: 1.2rem;">Someone who cares about you--Maheen</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <button class="forgive-btn" onclick="handleResponse('forgive')">I Forgive You ❤️</button>
+            <button class="deny-btn" onclick="handleResponse('deny')">Not Yet 💔</button>
+            <div class="response-message" id="responseMessage"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Three.js 3D Background
+        let scene, camera, renderer, particles = [];
+        
+        function initThree() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('three-container').appendChild(renderer.domElement);
+
+            // Create floating particles
+            const geometry = new THREE.SphereGeometry(0.1, 8, 8);
+            const materials = [
+                new THREE.MeshBasicMaterial({ color: 0xff6b9d, transparent: true, opacity: 0.6 }),
+                new THREE.MeshBasicMaterial({ color: 0x4facfe, transparent: true, opacity: 0.6 }),
+                new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.4 })
+            ];
+
+            for (let i = 0; i < 100; i++) {
+                const particle = new THREE.Mesh(geometry, materials[Math.floor(Math.random() * materials.length)]);
+                particle.position.x = (Math.random() - 0.5) * 100;
+                particle.position.y = (Math.random() - 0.5) * 100;
+                particle.position.z = (Math.random() - 0.5) * 100;
+                particle.velocity = {
+                    x: (Math.random() - 0.5) * 0.02,
+                    y: (Math.random() - 0.5) * 0.02,
+                    z: (Math.random() - 0.5) * 0.02
+                };
+                particles.push(particle);
+                scene.add(particle);
+            }
+
+            camera.position.z = 30;
+            animate();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            particles.forEach(particle => {
+                particle.position.x += particle.velocity.x;
+                particle.position.y += particle.velocity.y;
+                particle.position.z += particle.velocity.z;
+                particle.rotation.x += 0.01;
+                particle.rotation.y += 0.01;
+
+                // Boundary check
+                if (Math.abs(particle.position.x) > 50) particle.velocity.x *= -1;
+                if (Math.abs(particle.position.y) > 50) particle.velocity.y *= -1;
+                if (Math.abs(particle.position.z) > 50) particle.velocity.z *= -1;
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        // Letter functionality
+        document.getElementById('sorryLetter').addEventListener('click', function() {
+            this.classList.toggle('opened');
+        });
+
+        // Floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            document.getElementById('hearts-container').appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 8000);
+        }
+
+        // Response handling
+        function handleResponse(type) {
+            const responseMessage = document.getElementById('responseMessage');
+            
+            if (type === 'forgive') {
+                responseMessage.innerHTML = '🎉 Thank you for your kindness and forgiveness! 💕<br>You\'ve made my heart whole again! ✨';
+                responseMessage.style.color = '#4facfe';
+                // Create celebration hearts
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => createHeart(), i * 100);
+                }
+            } else {
+                responseMessage.innerHTML = '💔 I understand... I\'ll keep trying to earn your forgiveness. 🙏<br>Please give me time to make things right. 💙';
+                responseMessage.style.color = '#f5576c';
+            }
+            
+            responseMessage.classList.add('show');
+        }
+
+        // Window resize handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Initialize everything
+        window.addEventListener('load', () => {
+            initThree();
+            
+            // Create periodic hearts
+            setInterval(createHeart, 3000);
+            
+            // Add mouse movement effect
+            document.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth) * 2 - 1;
+                const y = -(e.clientY / window.innerHeight) * 2 + 1;
+                camera.position.x = x * 5;
+                camera.position.y = y * 5;
+            });
+        });
+    </script>
+</body>
+</html>
